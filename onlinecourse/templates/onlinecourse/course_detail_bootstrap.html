@@ -58,17 +58,35 @@
                        
             {% if user.is_authenticated %}
 
-            <button data-toggle="collapse" data-target="#demo">Exam</button>
+            <button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#demo">Start Exam</button>
             <div id="demo" class="collapse">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quasi perferendis cum distinctio. Id deserunt deleniti ducimus eaque dolores unde atque voluptates alias, consectetur sequi temporibus pariatur, odio dignissimos ex.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, dignissimos dolore temporibus non molestiae delectus neque sequi optio vero perferendis numquam laborum quo sapiente necessitatibus tenetur, maiores, amet rem illum.
 
-            </div>
             
-            {% endif %}
             <!-- <HINT> Each example will have many questions -->
+               <!-- my first trial code
+                <div class="card-columns-vertical">
+                    {% for question in lesson.question_set.all %}
+                        <div class="card mt-1">
+                            <div class="card-header"><h5>Question  {{question.question_text}}</div>
+                                <p>{{question.question_grade}}</p>
+                            <div class="card-body"> -->
+                                <!-- <HINT> Each question will have many choices -->
+                                    <!-- <div class="card-columns-vertical">
+                                        {% for choice in question.choice_set.all %}
+                                            <div class="card mt-1">
+                                                <div class="card-body">{{choice.choice_text}}</div>
+                                            </div>
+                                        {% endfor %}
+                                    </div> -->
 
-            <!-- <HINT> Each question will have many choices -->
+<!-- 
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div> -->
 
+            
 
             <!-- <HINT> Create a form to collect the selected choices for all questions -->
             <!-- <HINT> For each question choice, you may create a checkbox input like
@@ -76,24 +94,37 @@
             -->
 
              <!-- A choice submission form example -->
+             
+             
+             
             <form id="questionform" action="point to a submit view" method="post">
                         <!-- ... for each question in the course ... -->
-                        <div class="card mt-1">
-                            <div class="card-header"><h5>{{ question.question_text}}</h5></div>
-                            {% csrf_token %}
-                            <div class="form-group">
-                               <!-- ... for each choice in the question ... -->
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" name="choice_{{choice.id}}"
-                                               class="form-check-input" id="{{choice.id}}"
-                                               value="{{choice.id}}">{{ choice.choice_text }}
-                                    </label>
+                        {% for lesson in course.lesson_set.all %}
+                            {% for question in lesson.question_set.all %}
+                            <div class="card mt-1">
+                                <div class="card-header"><h5>{{ question.question_text}}</h5></div>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                <!-- ... for each choice in the question ... -->
+                                    {% for choice in question.choice_set.all %}
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" name="choice_{{choice.id}}"
+                                                class="form-check-input" id="{{choice.id}}"
+                                                value="{{choice.id}}">{{ choice.choice_text }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                        </div>
+                            {% endfor %}
+                        {% endfor %}
+
                     <input class="btn btn-success btn-block" type="submit" value="Submit">
             </form> 
+
+            </div>
+            {% endif %}
 
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
